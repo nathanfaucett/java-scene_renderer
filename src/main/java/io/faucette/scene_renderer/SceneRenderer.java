@@ -60,14 +60,14 @@ public class SceneRenderer {
 
             sortRendererPlugins();
 
-            for (int i = 0, il = rendererPlugins.size(); i < il; i++) {
-                rendererPlugins.get(i).init();
+            for (RendererPlugin rendererPlugin: rendererPlugins) {
+                rendererPlugin.init();
             }
 
             sortRenderers();
 
-            for (int i = 0, il = renderers.size(); i < il; i++) {
-                renderers.get(i).init();
+            for (Renderer renderer: renderers) {
+                renderer.init();
             }
         }
         return this;
@@ -75,24 +75,23 @@ public class SceneRenderer {
 
     public SceneRenderer render() {
 
-        for (int i = 0, il = rendererPlugins.size(); i < il; i++) {
-            rendererPlugins.get(i).before();
+        for (RendererPlugin rendererPlugin: rendererPlugins) {
+            rendererPlugin.before();
+        }
+
+        for (Renderer renderer: renderers) {
+            renderer.before();
+        }
+        for (Renderer renderer: renderers) {
+            renderer.render();
+        }
+        for (Renderer renderer: renderers) {
+            renderer.after();
         }
 
 
-        for (int i = 0, il = renderers.size(); i < il; i++) {
-            renderers.get(i).before();
-        }
-        for (int i = 0, il = renderers.size(); i < il; i++) {
-            renderers.get(i).render();
-        }
-        for (int i = 0, il = renderers.size(); i < il; i++) {
-            renderers.get(i).after();
-        }
-
-
-        for (int i = 0, il = rendererPlugins.size(); i < il; i++) {
-            rendererPlugins.get(i).after();
+        for (RendererPlugin rendererPlugin: rendererPlugins) {
+            rendererPlugin.after();
         }
 
         return this;
